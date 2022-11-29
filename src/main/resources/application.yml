@@ -1,0 +1,22 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/mss
+    username: simple
+    password: simple
+
+  jpa:
+    open-in-view: true
+    show-sql: true
+    generate-ddl: true
+    ddl-auto: create
+    database: sql_server
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

@@ -1,19 +1,22 @@
-version: "3.7"
+version: "3"
 services:
-  mysql:
-    image: mysql:5.7
+  database-mysql:
     platform: linux/amd64
-    restart: always
     container_name: mysql-mss
-    ports:
-      - "3306:3306"
+    image: mysql:5.7
+
     environment:
-      - MYSQL_DATABASE=admin
-      - MYSQL_ROOT_PASSWORD=1234
-      - TZ=Asia/Seoul
+      MYSQL_ROOT_PASSWORD: 'simple'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'mss'
+      TZ: Asia/Seoul
+
+    volumes:
+      - ./mysql-init.d:/docker-entrypoint-initdb.d
+
+    ports:
+      - '13306:3306'
 
     command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./db/test/mysql/data:/var/lib/mysql
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
