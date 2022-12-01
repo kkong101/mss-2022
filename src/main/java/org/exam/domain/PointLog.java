@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "mss.POINT")
-public class Point {
+@Table(name = "mss.POINT_LOG")
+public class PointLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Point {
     private PointType pointType;
 
     @Column(name = "continuous_attendance_cnt", columnDefinition = "INT")
-    private Long ContinuousAttendanceCnt;
+    private Long continuousAttendanceCnt;
 
     @Column(name = "created_at", columnDefinition = "DATETIME")
     private final LocalDateTime createdAt = LocalDateTime.now();
@@ -38,11 +38,11 @@ public class Point {
     private User user;
 
     @Builder
-    public Point(Long idx, Long point, PointType pointType, Long continuousAttendanceCnt, User user) {
+    public PointLog(Long idx, Long point, PointType pointType, Long continuousAttendanceCnt, User user) {
         this.idx = idx;
         this.point = point;
         this.pointType = pointType;
-        ContinuousAttendanceCnt = continuousAttendanceCnt;
+        this.continuousAttendanceCnt = continuousAttendanceCnt;
         this.user = user;
     }
 }

@@ -4,6 +4,7 @@ package org.exam.domain.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -26,7 +27,7 @@ public enum PointType {
     public static PointType codeToType(String code){
 
         for (PointType type : PointType.values()){
-            if(Objects.equals(type.getCode(), code))
+            if(ObjectUtils.nullSafeEquals(type.getCode(), code))
                 return type;
         }
 
@@ -39,7 +40,7 @@ public enum PointType {
 
         @Override
         public String convertToDatabaseColumn(PointType input) {
-            return (input != null) ? input.getCode() : null;
+            return (Objects.nonNull(input)) ? input.getCode() : null;
         }
 
         @Override
