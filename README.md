@@ -18,7 +18,7 @@
 
 
 
-### 3. 핵심 폴더  설명
+### 3. 핵심 폴더 
 ```
 src
  ┣ main
@@ -91,7 +91,7 @@ src
     
     - 해당 사용자ID 의 Point 기록을 조회
     
-    ex)  localhost:8080/users/1/point?sort=date,asc&size=10&page=0
+    ex)  **localhost:8080/users/1/point?sort=date,asc&size=10&page=0**
     
      - Query String
     
@@ -125,12 +125,6 @@ src
                     "point": 300,
                     "pointHistory": 500,
                     "pointType": "THREE_DAYS",
-                    "acquiredAt": "2022-12-03T23:30:49"
-                },
-                {
-                    "point": 100,
-                    "pointHistory": 600,
-                    "pointType": "EVERY_DAY",
                     "acquiredAt": "2022-12-03T23:30:49"
                 }
             ],
@@ -171,13 +165,181 @@ src
     | acquiredAt | 획득 시간 |
 
 
+---
+
+- `/users/{userId}/attendance - POST`
+    
+    
+    - 해당 사용자 출석 포인트 획득 요청
+    
+    ex)  **localhost:8080/users/1/attendance**
+    
+     - 필요 Body 값
+    
+    `none`
+    
+     - Response Example - 200 OK
+    
+    ```json
+    {
+        "code": "0000",
+        "message": "성공",
+        "result": {
+            "pointType": [
+                "THREE_DAYS",
+                "EVERY_DAY"
+            ],
+            "currentPoint": 1000
+        }
+    }
+    ```
+    
+    | Value | 설명 |
+    | --- | --- |
+    | pointType | 획득 포인트 enum 타입 |
+    | currentPoint | 획득 후 해당 유저의 현재 포인트 |
+    
+     - Response Example - 200 OK
+    
+    ```json
+    {
+        "code": "P001",
+        "message": "오늘의 출석이 마감되었습니다."
+    }
+    ```
+    
+     - Response Example - 200 OK
+    
+    ```json
+    {
+        "code": "P002",
+        "message": "이미 오늘 출석을 하였습니다."
+    }
+    ```
+    
+
+---
+- `/points/history - GET`
+    
+    
+    - 해당 날짜의 포인트 기록을 조회
+    
+    ex)  **localhost:8080/points/history?date=2022-12-03&size=1&sort=date,desc**
+    
+     - Query String
+    
+    | Value | 필수 여부 | 설명 | 예시 |
+    | --- | --- | --- | --- |
+    | size | false(default 10) | 한페이지 보이는 요소 개수 | size=20 |
+    | page | false(default 0) | 페이지 | page=0 |
+    | sort | false(default desc) | 포인트 획득 정렬 기준 | sort=date,asc |
+    | date | false(default today) | 조회하고자 하는 날짜 | date=2022-12-03 |
+    
+     - Response Example - 200 OK
+    
+    ```json
+    {
+        "code": "0000",
+        "message": "성공",
+        "result": {
+            "content": [
+                {
+                    "userName": "user1",
+                    "point": 300,
+                    "pointHistory": 900,
+                    "pointType": "THREE_DAYS",
+                    "acquiredAt": "2022-12-03T23:46:15"
+                },
+                {
+                    "userName": "user1",
+                    "point": 100,
+                    "pointHistory": 1000,
+                    "pointType": "EVERY_DAY",
+                    "acquiredAt": "2022-12-03T23:46:15"
+                }
+            ],
+            "pageable": {
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "pageNumber": 0,
+                "pageSize": 10,
+                "paged": true,
+                "unpaged": false
+            },
+            "last": true,
+            "totalPages": 1,
+            "totalElements": 4,
+            "first": true,
+            "size": 10,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "numberOfElements": 4,
+            "empty": false
+        }
+    }
+    ```
+    
+    | Value | 설명 |
+    | --- | --- |
+    | userName | 사용자 이름 |
+    | point | 획득 포인트 |
+    | pointHistory | 획득 후 사용자 포인트 |
+    | pointType | 획득 포인트 enum 타입 |
+    | acquiredAt | 획득 시간 |
+
+
+
+
 ### 5. Database ERD
 
 
 
 ### 6. 코드값
 
+`에러 코드`
 
+| Value | Message | HttpStatus |
+| --- | --- | --- |
+| U001 | 존재하지 않는 사용자 | 400 Bad Request |
+| P001 | 오늘의 출석이 마감되었습니다 | 200 OK |
+| P002 | 이미 오늘 출석을 하였습니다 | 200 OK |
+
+`응답 예시`
+
+```json
+{
+    "code": "P001",
+    "message": "오늘의 출석이 마감되었습니다."
+}
+```
+
+`포인트 코드`
+
+| Value | Point | Code |
+| --- | --- | --- |
+| EVERY_DAY | 100 | P1 |
+| THREE_DAYS | 300 | P2 |
+| FIVE_DAYS | 500 | P3 |
+| TEN_DAYS | 1000 | P4 |
+
+Code 값은 DB에 저장되는 값이며, Value는 Front에 제공되는 값입니다.
+
+`응답 예시`
+
+```json
+"pointType": [
+            "THREE_DAYS",
+            "EVERY_DAY"
+        ],
+```
 
 ### 7. 부가 설명
 
