@@ -27,12 +27,14 @@ public class PointController {
 
     @GetMapping(value = "/history")
     public CustomResponse getPointInfo(
-            @RequestParam(name="date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate targetDate,
+            @RequestParam(name="date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate targetDate,
             @PageableDefault Pageable pageable) {
 
         if(pageable.getSort().isEmpty() || Objects.isNull(pageable.getSort().getOrderFor(SortConstants.DATE))) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(SortConstants.DATE).descending());
         }
+
+        if(Objects.isNull(targetDate)) targetDate = LocalDate.now();
 
         LocalDateTime startDateTime = dateTimeUtil.getStartDateTime(targetDate);
         LocalDateTime endDateTime = dateTimeUtil.getEndDateTime(targetDate);
