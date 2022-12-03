@@ -300,6 +300,7 @@ src
 
 ### 5. Database ERD
 
+![캡처](/ERD_IMAGE.png)
 
 
 ### 6. 코드값
@@ -342,4 +343,7 @@ Code 값은 DB에 저장되는 값이며, Value는 Front에 제공되는 값입�
 ```
 
 ### 7. 부가 설명
+
+1. 
+
 
