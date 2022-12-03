@@ -1,4 +1,4 @@
-package org.exam.config;
+package org.exam.common.config;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;

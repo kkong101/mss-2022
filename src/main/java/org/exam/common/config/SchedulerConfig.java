@@ -1,7 +1,7 @@
-package org.exam.config;
+package org.exam.common.config;
 
 
-import org.exam.scheduler.PointTask;
+import org.exam.common.scheduler.PointTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

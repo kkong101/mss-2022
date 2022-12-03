@@ -1,4 +1,4 @@
-package org.exam.config;
+package org.exam.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
