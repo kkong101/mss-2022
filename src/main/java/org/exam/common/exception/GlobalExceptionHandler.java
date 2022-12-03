@@ -32,12 +32,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({Exception.class})
-    public CustomResponse runtimeError(HttpServletResponse response, BaseException e) {
+    public CustomResponse runtimeError(HttpServletResponse response, Exception e) {
 
         log.error("RUNTIME ERROR", e);
 
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return CustomResponse.ok(e.getCode(), e.getMessage());
+        return CustomResponse.ok("9999", e.getMessage());
     }
 
 }

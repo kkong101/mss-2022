@@ -23,6 +23,9 @@ public class PointLog {
     @Column(name = "point", columnDefinition = "INT")
     private Long point;
 
+    @Column(name = "user_point", columnDefinition = "INT")
+    private Long userPoint;
+
     @Column(name = "point_code", columnDefinition = "CHAR(2)")
     @Convert(converter = PointType.TypeConvert.class)
     private PointType pointType;
@@ -38,9 +41,9 @@ public class PointLog {
     private User user;
 
     @Builder
-    public PointLog(Long idx, Long point, PointType pointType, Long continuousAttendanceCnt, User user) {
-        this.idx = idx;
+    public PointLog(Long point,Long userPoint, PointType pointType, Long continuousAttendanceCnt, User user) {
         this.point = point;
+        this.userPoint = userPoint;
         this.pointType = pointType;
         this.continuousAttendanceCnt = continuousAttendanceCnt;
         this.user = user;

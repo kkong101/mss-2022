@@ -7,16 +7,19 @@ spring:
     password: simple
 
   jpa:
-    open-in-view: true
+    open-in-view: false
     show-sql: true
-    generate-ddl: true
-    ddl-auto: create
-    database: sql_server
+    generate-ddl: false
+    database: MYSQL
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+mss:
+  point:
+    max-attendance: 10

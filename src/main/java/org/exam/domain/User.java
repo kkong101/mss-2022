@@ -20,14 +20,20 @@ public class User {
     @Column(name = "idx")
     private Long idx;
 
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "VARCHAR(20)")
     private String name;
+
+    @Column(name = "point_current", columnDefinition = "INT")
+    private Long pointCurrent;
 
     @Column(name = "created_at", columnDefinition = "DATETIME")
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "point", fetch = FetchType.LAZY)
-    private List<Point> point = new ArrayList<>();
+    private List<PointLog> pointLog = new ArrayList<>();
 
+    public synchronized void plusPoint(Long newPoint) {
+        this.pointCurrent += newPoint;
+    }
 
 }
