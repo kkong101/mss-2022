@@ -18,7 +18,7 @@
 
 
 
-### 3. 구조 설명
+### 3. 핵심 폴더  설명
 ```
 src
  ┣ main
@@ -86,9 +86,98 @@ src
 ### 4. API 명세서
 
 
-### 5. 에러 코드
+- `/users/{userId}/point - GET`
+    
+    
+    - 해당 사용자ID 의 Point 기록을 조회
+    
+    ex)  localhost:8080/users/1/point?sort=date,asc&size=10&page=0
+    
+     - Query String
+    
+    | Value | 필수 여부 | 설명 | 예시 |
+    | --- | --- | --- | --- |
+    | size | false(default 10) | 한페이지 보이는 요소 개수 | size=20 |
+    | page | false(default 0) | 페이지 | page=0 |
+    | sort | false(default desc) | 포인트 획득 정렬 기준 | sort=date,asc |
+    
+     - Response Example - 200 OK
+    
+    ```json
+    {
+        "code": "0000",
+        "message": "성공",
+        "result": {
+            "content": [
+                {
+                    "point": 100,
+                    "pointHistory": 100,
+                    "pointType": "EVERY_DAY",
+                    "acquiredAt": "2022-12-01T23:30:15"
+                },
+                {
+                    "point": 100,
+                    "pointHistory": 200,
+                    "pointType": "EVERY_DAY",
+                    "acquiredAt": "2022-12-02T23:30:15"
+                },
+                {
+                    "point": 300,
+                    "pointHistory": 500,
+                    "pointType": "THREE_DAYS",
+                    "acquiredAt": "2022-12-03T23:30:49"
+                },
+                {
+                    "point": 100,
+                    "pointHistory": 600,
+                    "pointType": "EVERY_DAY",
+                    "acquiredAt": "2022-12-03T23:30:49"
+                }
+            ],
+            "pageable": {
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "pageNumber": 0,
+                "pageSize": 10,
+                "paged": true,
+                "unpaged": false
+            },
+            "last": true,
+            "totalPages": 1,
+            "totalElements": 4,
+            "first": true,
+            "size": 10,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "numberOfElements": 4,
+            "empty": false
+        }
+    }
+    ```
+    
+    | Value | 설명 |
+    | --- | --- |
+    | point | 획득 포인트 |
+    | pointHistory | 획득 후 사용자 포인트 |
+    | pointType | 획득 포인트 enum 타입 |
+    | acquiredAt | 획득 시간 |
+
+
+### 5. Database ERD
 
 
 
-### 6. 부가 설명
+### 6. 코드값
+
+
+
+### 7. 부가 설명
 
