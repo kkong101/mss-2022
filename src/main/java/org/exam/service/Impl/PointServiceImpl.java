@@ -35,11 +35,10 @@ public class PointServiceImpl implements PointService {
     private final DateTimeUtil dateTimeUtil;
 
     @Value(value = "${mss.point.max-attendance}")
-    private Long maxAttendance;
+    private Long maxAttendance = 10L;
 
     @Transactional
     public List<PointType> attendTodayPointByUser(User user) {
-
         SingletonPointState singletonPointState = SingletonPointState.getInstance();
         LocalDateTime todayStart = dateTimeUtil.getTodayStartDateTime();
         LocalDateTime todayEnd = dateTimeUtil.getTodayEndDateTime();
@@ -53,7 +52,7 @@ public class PointServiceImpl implements PointService {
             throw new NoEnoughTodayPointException();
         }
 
-            Long nextContinuousAttendanceCnt = pointLogRepository.getNextContinuousAttendanceCntByUser(user);
+        Long nextContinuousAttendanceCnt = pointLogRepository.getNextContinuousAttendanceCntByUser(user);
 
         Optional<PointType> mayBeAdditionalPointType = PointType.findAdditionalPoint(nextContinuousAttendanceCnt);
         List<PointLog> toSavePoints = new ArrayList<>();
