@@ -8,7 +8,7 @@ import org.exam.controller.dto.UserDto;
 import org.exam.domain.PointLog;
 import org.exam.domain.User;
 import org.exam.domain.type.PointType;
-import org.exam.repository.PointLogLogRepository;
+import org.exam.repository.PointLogRepository;
 import org.exam.repository.UserRepository;
 import org.exam.service.PointService;
 import org.exam.common.singleton.SingletonPointState;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
 
-    private final PointLogLogRepository pointLogRepository;
+    private final PointLogRepository pointLogRepository;
 
     private final UserRepository userRepository;
 
@@ -38,7 +38,7 @@ public class PointServiceImpl implements PointService {
     private Long maxAttendance;
 
     @Transactional
-    public synchronized List<PointType> attendTodayPointByUser(User user) {
+    public List<PointType> attendTodayPointByUser(User user) {
 
         SingletonPointState singletonPointState = SingletonPointState.getInstance();
         LocalDateTime todayStart = dateTimeUtil.getTodayStartDateTime();
@@ -53,7 +53,7 @@ public class PointServiceImpl implements PointService {
             throw new NoEnoughTodayPointException();
         }
 
-        Long nextContinuousAttendanceCnt = pointLogRepository.getNextContinuousAttendanceCntByUser(user);
+            Long nextContinuousAttendanceCnt = pointLogRepository.getNextContinuousAttendanceCntByUser(user);
 
         Optional<PointType> mayBeAdditionalPointType = PointType.findAdditionalPoint(nextContinuousAttendanceCnt);
         List<PointLog> toSavePoints = new ArrayList<>();
@@ -67,8 +67,10 @@ public class PointServiceImpl implements PointService {
         PointLog toSaveAdditionalPointLog = makeNewPointLogInstance(PointType.EVERY_DAY, nextContinuousAttendanceCnt, user);
         toSavePoints.add(toSaveAdditionalPointLog);
 
+
         userRepository.save(user);
         pointLogRepository.saveAll(toSavePoints);
+
 
         if(isLastTodayPoint)
             singletonPointState.completeTodayPoint();

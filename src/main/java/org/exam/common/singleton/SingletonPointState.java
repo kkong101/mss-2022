@@ -9,7 +9,6 @@ public final class SingletonPointState {
 
     private static SingletonPointState instance;
 
-    @Getter
     private AtomicBoolean isTodayPointAvailable = new AtomicBoolean(true);
 
     public static SingletonPointState getInstance() {

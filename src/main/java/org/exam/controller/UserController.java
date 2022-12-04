@@ -2,6 +2,7 @@ package org.exam.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.exam.common.constants.SortConstants;
 import org.exam.common.exception.point.NoEnoughTodayPointException;
 import org.exam.controller.dto.CustomResponse;
@@ -16,8 +17,10 @@ import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("users")
@@ -52,7 +55,13 @@ public class UserController {
         if(!singletonPointState.getIsTodayPointAvailable())
             throw new NoEnoughTodayPointException();
 
-        List<PointType> savedPointTypes = pointService.attendTodayPointByUser(user);
+        List<PointType> savedPointTypes = new ArrayList<>();
+
+        synchronized (this) {
+            savedPointTypes.addAll(pointService.attendTodayPointByUser(user));
+        }
+
+        savedPointTypes.addAll(pointService.attendTodayPointByUser(user));
 
         PointDto.PointAttendance response = PointDto.PointAttendance.builder()
                 .pointType(savedPointTypes)

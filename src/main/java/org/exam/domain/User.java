@@ -1,6 +1,7 @@
 package org.exam.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,14 @@ public class User {
 
     @OneToMany(mappedBy = "point", fetch = FetchType.LAZY)
     private List<PointLog> pointLog = new ArrayList<>();
+
+    @Builder
+    public User(Long idx, String name, Long pointCurrent, List<PointLog> pointLog) {
+        this.idx = idx;
+        this.name = name;
+        this.pointCurrent = pointCurrent;
+        this.pointLog = pointLog;
+    }
 
     public synchronized void plusPoint(Long newPoint) {
         this.pointCurrent += newPoint;
